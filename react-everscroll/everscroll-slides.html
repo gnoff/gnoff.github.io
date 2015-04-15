@@ -322,7 +322,7 @@ access to _current_ props/state as well as **past** props/state
 ---
 ### Dealing with DOM
 
-#### screen painting and reflows
+#### Screen painting and reflows
 
 During the componentDidUpdate call the browser has already reflowed the layout. Manipulating DOM will trigger additional reflows and optimizations that are useful in other places are useful here to...
 
@@ -413,9 +413,9 @@ if (adjustedOffset === maxOffset && this.state.listOffset !== adjustedOffset) {
 }
 ```
 
-#### deliver new data via props
+#### Deliver new data via props
 
-render an updated rowIndex to Everscroll component
+Render an updated rowIndex to Everscroll component
 
 componentWillReceiveProps allows us to analyze and manipulate component state as needed
 ```js
@@ -437,16 +437,16 @@ class: center, middle
 ### Improvements
 
 #### Remove Build Tool Dependency
-currently requires babel with a task runner of some kind to transpile to es5
+Currently requires babel with a task runner of some kind to transpile to es5
 
-#### render Items vs Rows
-semantically oriented towards rows but this could function equally well with items where more than one item appears in 'row' cursor search and height manipulations don't really have to change
+#### Render Items vs Rows
+Semantically oriented towards rows but this could function equally well with items where more than one item appears in 'row' cursor search and height manipulations don't really have to change
 
-#### bottom and top spacer sizing
-Spacers use estimated heights based on rendered row heights. this can cause jumpiness with the scroll handle. Caching row heights and more adjusting esimtated row height more smoothly can elimiate any apparent jumpiness
+#### Bottom and top spacer sizing
+Spacers use estimated heights based on rendered row heights. This can cause jumpiness with the scroll handle. Caching row heights and more adjusting esimtated row height more smoothly can elimiate any apparent jumpiness
 
 #### _handleScroll is throttled for performance but frames still drop
-It's possible the throttling isn't lining up with when browser frames are available. worth researching
+It's possible the throttling isn't lining up with when browser frames are available. Worth researching
 
 
 
