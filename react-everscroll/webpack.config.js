@@ -9,7 +9,7 @@ module.exports = {
   },
   devtool: 'eval',
   output: {
-    path: '/build',
+    path: 'build',
     filename: 'app.js',
     publicPath: '/build/'
   },
@@ -21,7 +21,8 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.js$/, loader: 'babel-loader'}
+      { test: /\.js$/, include: /node_modules/, loaders: ['jsx?harmony']},
+      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader'}
     ]
   },
   //Stubbed as empty so that Joi works
