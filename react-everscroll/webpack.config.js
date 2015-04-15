@@ -9,12 +9,10 @@ module.exports = {
   },
   devtool: 'eval',
   output: {
-    path: '/build',
-    filename: 'app.js',
-    publicPath: '/build/'
+    path: 'build/',
+    filename: 'app.js'
   },
   plugins: [
-    new webpack.NoErrorsPlugin()
   ],
   resolve: {
     extensions: ['', '.js']
@@ -24,10 +22,4 @@ module.exports = {
       { test: /\.js$/, loader: 'babel-loader'}
     ]
   },
-  //Stubbed as empty so that Joi works
-  node: {
-     net : 'empty',
-     tls : 'empty',
-     dns : 'empty'
-  }
 };
