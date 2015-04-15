@@ -54,7 +54,7 @@ Internal Component State should be managed via **state**
 this.state.listOffset
 ```
 
-communication up the component tree is managed via **callback handlers**
+Communication up the component tree is managed via **callback handlers**
 ```js
 onEndReached={this.loadPastMessages}
 ```
@@ -86,7 +86,7 @@ class: center, middle
 ### What is unique
 
 * Does not require uniform row height
-* can render in reverse order (Twitter is top down, iMessage is bottom up)
+* Can render in reverse order (Twitter is top down, iMessage is bottom up)
 
 ---
 
@@ -236,7 +236,7 @@ _handleScroll: function(){
 #### Render
 the _handleScroll setState propoages a new **render** cycle within react
 * Usually this results in a need to update the DOM
-* often with a different listOffset new rows being rendered in the container.
+* Often with a different listOffset new rows being rendered in the container.
 
 If we stopped here however we would see rows jumping around the screen every time the listOffset was updated. To avoid this we need to know about...
 
@@ -324,7 +324,7 @@ access to _current_ props/state as well as **past** props/state
 
 #### screen painting and reflows
 
-during the componentDidUpdate call the browser has already reflowed the layout. Manipulating DOM will trigger additional reflows and optimizations that are useful in other places are useful here to...
+During the componentDidUpdate call the browser has already reflowed the layout. Manipulating DOM will trigger additional reflows and optimizations that are useful in other places are useful here to...
 
 However the browser has not yet painted anything so we have our opportunity to adjust DOM parameters and still avoid flickering and other artifacts that would be unfortunate
 
