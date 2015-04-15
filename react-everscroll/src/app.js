@@ -14,5 +14,5 @@ var ListView = React.createClass({
 });
 
 domready(function(){
-  React.render(<ListView {...state} />, document.body);
+  React.render(<ListView />, document.body);
 })

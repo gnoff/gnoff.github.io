@@ -50,7 +50,7 @@
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	eval("'use strict';\n\nvar React = __webpack_require__(2);\nvar domready = __webpack_require__(3);\n\nvar ListView = React.createClass({\n  displayName: 'ListView',\n\n  render: function render() {\n    return React.createElement(\n      'div',\n      null,\n      React.createElement(\n        'p',\n        null,\n        'hello world'\n      )\n    );\n  }\n});\n\ndomready(function () {\n  React.render(React.createElement(ListView, state), document.body);\n});\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/app.js\n ** module id = 1\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/app.js?");
+	eval("'use strict';\n\nvar React = __webpack_require__(2);\nvar domready = __webpack_require__(3);\n\nvar ListView = React.createClass({\n  displayName: 'ListView',\n\n  render: function render() {\n    return React.createElement(\n      'div',\n      null,\n      React.createElement(\n        'p',\n        null,\n        'hello world'\n      )\n    );\n  }\n});\n\ndomready(function () {\n  React.render(React.createElement(ListView, null), document.body);\n});\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/app.js\n ** module id = 1\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/app.js?");
 
 /***/ },
 /* 2 */
