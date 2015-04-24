@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style type="text/css">
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# Single Page Apps (SPA)
+
+
+Josh Story  
+@jcspublic  
+github.com/gnoff 
+
+---
+class: center, middle
+
+##github.com/gnoff/talks/SinglePageApps/slides.html
+
+---
+class: center, middle
+
+### Pages, Sites, Applications
+
+---
+
+### Pages, Sites, Applications
+
+## Pages
+A document served over the internet
+* Generally static presentation for all comers
+
+##### Simple
+---
+### Pages, Sites, Applications
+
+## Sites
+Collection of pages
+* meant to partition information
+* provide higher level ordering
+* encapsulate domains
+* still fairly static
+* may attempt statefulness
+
+##### Simple-ish
+
+---
+### Pages, Sites, Applications
+
+## Applications
+Interface to effect change and hold/manage state
+* needs statefulness
+* needs to consider the server/client relationship
+* highly dynamic content
+
+##### Complex (usually)
+
+---
+class: center, middle
+
+### Tech Stacks
+
+---
+
+### Tech Stack
+
+Traditional server based web applications ahve
+
+* **Persistence** Tier for long term information storage
+* **Processing** Tier for executing application logic
+* **Interaction** Tier for negoatiating server/client communication
+* **Presentation** Tier for showing human usable application interface
+
+Commonly this is
+
+1. SQL
+2. Java
+3. Tomcat + Servlet API + HTTP
+4. JSP + the browser
+
+---
+### the stack can get in the way
+
+## Why is this hard?
+
+HTTP is by design stateless.
+
+* No pre-defined page order
+* No implicit sequence awareness
+
+---
+### the stack can get in the way
+
+## Problems
+
+* requires tracking cookies to traverse the wire on every request
+* requires memory on server to keep track of state
+* requires the client to infer state on each page reload
+
+---
+class: center, middle
+
+### Partitioning Client and Server
+
+---
+
+### Partitioning Client and Server
+
+## Traditional Web Application
+
+##### Server
+* Database
+* Business Logic
+* Routing
+* Presentation Logic
+
+##### Interface
+* HTTP GET
+* HTTP Form Post
+
+##### Client
+* Static HTML markup
+
+
+---
+
+### Partitioning Client and Server
+
+## SPA Web Application
+
+##### Server
+* Database
+* Business Logic
+
+##### Interface
+* HTTP verbs against REST endpoints
+* JSON (data) instead of HTML (markup)
+
+##### Client
+* Routing
+* Presentation Logic
+
+---
+class: center, middle
+
+### Benefits
+
+---
+
+### Benefits
+
+* State can live where it is useful, on the client
+* Reduces server overhead in tracking sessions
+* expands presentation options
+* Offline support?
+* Accessibility to other platforms
+  * IOS/Android
+  * Desktop Applications
+  * Internet of Things
+  * Anything that's not a browser
+---
+class: center, middle
+
+### Its not about SPAs
+## It is about decoupling
+
+---
+class: center, middle
+
+### Frameworks and Examples
+
+---
+
+### Frameworks and Examples
+
+## AngularJS
+an MVC framework for your browser
+
+Views (HTML and directives) are bound to Controllers (actually called Controllers) and build/maintain/manage Models with Services/Factories
+
+State is stored in Service Singletons and Scope objects.
+
+---
+### Frameworks and Examples
+
+from [https://docs.angularjs.org/tutorial/step_07](https://docs.angularjs.org/tutorial/step_07)
+
+```js
+phonecatApp.config(['$routeProvider',
+  function($routeProvider) {
+    $routeProvider.
+      when('/phones', {
+        templateUrl: 'partials/phone-list.html',
+        controller: 'PhoneListCtrl'
+      }).
+      when('/phones/:phoneId', {
+        templateUrl: 'partials/phone-detail.html',
+        controller: 'PhoneDetailCtrl'
+      }).
+      otherwise({
+        redirectTo: '/phones'
+      });
+  }]);
+```
+
+---
+### Frameworks and Examples
+
+## Twitter
+
+mounts new profiles without reloading entire page.
+
+Follow and Unfollow actions are POSTed to API url with JSON
+
+Partial timeline data is loaded as needed and injected into the html context
+
+---
+### Frameworks and Examples
+
+## National Programs Database
+
+Uses a component to bind URL to React Components. If you manipulte the URL the handler is remounted.
+
+underlying Brand and Program data is just there waiting to be used.
+
+
+
+
+    </textarea>
+    <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
