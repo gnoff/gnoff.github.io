@@ -74,17 +74,17 @@ Interface to effect change and hold/manage state
 ---
 class: center, middle
 
-### Tech Stacks
+### Tech Stack
 
 ---
 
 ### Tech Stack
 
-Traditional server based web applications ahve
+Traditional server based web applications have
 
 * **Persistence** Tier for long term information storage
 * **Processing** Tier for executing application logic
-* **Interaction** Tier for negoatiating server/client communication
+* **Interface** Tier for negoatiating server/client communication
 * **Presentation** Tier for showing human usable application interface
 
 Commonly this is
@@ -137,7 +137,12 @@ class: center, middle
 ##### Client
 * Static HTML markup
 
+---
+### Traditional Web Application
 
+.center[
+  ![traditional web app interaction flow](https://docs.google.com/drawings/d/1JztgFFVb-fliHk9IMZtC16cwBYsqTWQ95McXADi9AAU/pub?w=652&h=465)
+]
 ---
 
 ### Partitioning Client and Server
@@ -155,6 +160,33 @@ class: center, middle
 ##### Client
 * Routing
 * Presentation Logic
+---
+### SPA Web Application
+
+.center[
+  ![traditional web app interaction flow](https://docs.google.com/drawings/d/16tyxu9DVxdMaz8xWnOP5KWMSy70FSwFyG9LzWP8mlHA/pub?w=567&h=460)
+]
+---
+### Tech Stack
+
+SPA web applications still have
+
+* **Persistence** Tier for long term information storage
+* **Processing** Tier for executing application logic
+* **Interface** Tier for negoatiating server/client communication
+* **Presentation** Tier for showing human usable application interface
+
+but they are partitioned differently
+
+Server
+1. SQL
+2. Java
+3. Tomcat + Servlet API + HTTP
+
+Client
+1. the browser
+2. Javascript + HTML
+3. Async HTTP
 
 ---
 class: center, middle
@@ -229,6 +261,13 @@ mounts new profiles without reloading entire page.
 Follow and Unfollow actions are POSTed to API url with JSON
 
 Partial timeline data is loaded as needed and injected into the html context
+
+## [Atom IDE](https://atom.io/) and [Atom/Electron](http://electron.atom.io/)
+Desktop application using Chrome rendering engine and v8 javascript vm
+
+WebView inside native application container.
+
+Can write your own cross platform 'native' applications that use the same technolog your web app uses
 
 ---
 ### Frameworks and Examples
