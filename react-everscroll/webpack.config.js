@@ -6,11 +6,11 @@ module.exports = {
     app: [
         './src/app'
       ]
-    },
-    devtool: 'eval',
-    output: {
+  },
+  devtool: 'eval',
+  output: {
     path: 'build/',
-filename: 'app.js'
+    filename: 'app.js'
   },
   plugins: [],
   resolve: {
@@ -18,8 +18,9 @@ filename: 'app.js'
   },
   module: {
     loaders: [
-      { test: /\.js$/, include: /node_modules/, loaders: ['jsx?harmony']},
-      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader'}
+//      { test: /\.js$/, include: /node_modules/, loaders: ['jsx?harmony']},
+      { test: /\.js$/, include: /node_modules\/react-everscroll/, loader: 'babel-loader'},
+      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader'},
     ]
-  },
+  }
 };
