@@ -43,6 +43,56 @@ class: center, middle
 
 ---
 
+### Brief React Overview
+
+#### Abstract away DOM
+Each render step is sync and builds the "DOM" (virtual) from scratch
+
+#### Lifecycle Hooks
+Every React component allows for managed behaviors at various points in the lifecycle
+```js
+{
+  componentWillMount: function ()...
+  componentWillUpdate: function ()...
+  componentDidUpdate: function ()...
+  componentWillRecieveProps: function ()...
+}
+```
+
+#### no Special templating language
+JSX is semantic sugar but React can be used without it. Otherwise everything is pure JS
+---
+
+### Brief React Overview
+
+#### JSX
+Semantic sugar for easier understanding of component structure and parent child relationships
+
+This (JSX) ...
+```jsx
+render: function () {
+  return (
+    <div className="myclass">
+      <p>Hello World</p>
+    </div>
+  )
+}
+```
+
+transpiles into (ES5) ...
+```js
+render: function () {
+  return (
+    React.createElement('div', { className: 'myclass' }, 
+      React.createElement('p', null, "Hello World")
+    )
+  )
+}
+
+```
+
+---
+
 ### State Management
 Application State should be passed in **props**
 ```es6
