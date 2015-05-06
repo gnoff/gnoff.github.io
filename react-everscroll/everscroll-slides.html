@@ -50,12 +50,12 @@ Each render step is sync and builds the "DOM" (virtual) from scratch
 
 #### Lifecycle Hooks
 Every React component allows for managed behaviors at various points in the lifecycle
-```js
+```javascript
 {
-  componentWillMount: function ()...
-  componentWillUpdate: function ()...
-  componentDidUpdate: function ()...
-  componentWillRecieveProps: function ()...
+  componentWillMount: function () {/*...*/},
+  componentWillUpdate: function () {/*...*/},
+  componentDidUpdate: function () {/*...*/},
+  componentWillRecieveProps: function () {/*...*/}
 }
 ```
 
@@ -69,7 +69,7 @@ JSX is semantic sugar but React can be used without it. Otherwise everything is 
 Semantic sugar for easier understanding of component structure and parent child relationships
 
 This (JSX) ...
-```jsx
+```javascript
 render: function () {
   return (
     <div className="myclass">
@@ -245,7 +245,7 @@ return (
         ref="root" 
         className={this.props.className}
         key={this.props.key}
-        onScroll={this._handleScroll}>
+*       onScroll={this._handleScroll}>
         ...children...
       </div>
     )
@@ -271,7 +271,7 @@ _handleScroll: function(){
       process.nextTick(this.props.onEndReached)
     }
   ...
-  this.setState({
+* this.setState({
     cursorRef: cursorRef,
     listOffset: adjustedOffset,
     keyStart: adjustedKeyStart,
@@ -340,10 +340,8 @@ access to _current_ props/state as well as **future** props/state
   componentWillUpdate: function(nextProps, nextState){
     ...
       var containerEl = this.refs.root.getDOMNode()
-      var refOffset = this._prependOffset || 0
-      this._prependOffset = 0;
       this._targetCursorOffset =
-        this.refs[nextState.cursorRef - refOffset].getDOMNode().offsetTop
+        this.refs[nextState.cursorRef].getDOMNode().offsetTop
         - containerEl.scrollTop;
     ...
   },
@@ -509,7 +507,9 @@ It's possible the throttling isn't lining up with when browser frames are availa
     <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
     </script>
     <script>
-      var slideshow = remark.create();
+      var slideshow = remark.create({
+        highlightStyle: 'monokai'
+      });
     </script>
   </body>
 </html>
