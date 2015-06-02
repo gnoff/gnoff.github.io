@@ -23,7 +23,7 @@ var ListView = React.createClass({
 
   renderRow: function(index, renderIndex, isCursor){
     return (
-      <div style={styles.row}>
+      <div style={isCursor ? styles.cursorRow : styles.row}>
         <h1>{index}</h1>
       </div>
     )
