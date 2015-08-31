@@ -86,9 +86,9 @@ class: middle
     <AnotherLayer>
     //... Is Defined
       <AndAnother>
-      //... In it's own 
+      //... In its own 
         <AlmostDone>
-        //... File with it's own
+        //... File with its own
           <LastOne>
           //... render method
             <Button stuff={stuff} a={b} />
@@ -106,9 +106,9 @@ class: middle
     <AnotherLayer postMessage={postMessage}>
     //... Is Defined
       <AndAnother postMessage={postMessage}>
-      //... In it's own 
+      //... In its own 
         <AlmostDone postMessage={postMessage}>
-        //... File with it's own
+        //... File with its own
           <LastOne postMessage={postMessage}>
           //... render method
             <Button postMessage={postMessage} stuff={stuff} a={b} />
@@ -147,7 +147,7 @@ class: center, middle
 ]
 
 
-```jsx
+```javascript
 var Provider = require('react-tunnel').Provider;
 
 //... 
@@ -186,6 +186,7 @@ module.exports = inject(getProps)(Button);
 class: middle
 
 ### We had
+
 ```jsx
 <AppController>
 //... Each
@@ -194,9 +195,9 @@ class: middle
     <AnotherLayer postMessage={postMessage}>
     //... Is Defined
       <AndAnother postMessage={postMessage}>
-      //... In it's own 
+      //... In its own 
         <AlmostDone postMessage={postMessage}>
-        //... File with it's own
+        //... File with its own
           <LastOne postMessage={postMessage}>
           //... render method
             <Button postMessage={postMessage} stuff={stuff} a={b}/>
@@ -207,6 +208,7 @@ class: middle
 class: middle
 
 ### Now we have
+
 ```jsx
 <ProvidingAppController>
 //... Each
@@ -215,255 +217,68 @@ class: middle
     <AnotherLayer>
     //... Is Defined
       <AndAnother>
-      //... In it's own 
+      //... In its own 
         <AlmostDone>
-        //... File with it's own
+        //... File with its own
           <LastOne>
           //... render method
-            <Button stuff={stuff} a={b} />
+            <InjectedButton stuff={stuff} a={b} />
             // Button can STILL use postMessage
 //................
 ```
 ---
-.center[
+class: center, middle
 
-## Now we have
-## `inject` it
+## Useful for
+## Device Dimensions in React Native
+## Actions for Flux-like frameworks
+## Anything that is a pain to pass deeply as props...
+---
+class: middle
 
-]
+## Babel example
 
+```javascript
+import React, { Component } from 'react';
+import { Provider, inject } from 'react-tunnel';
 
-```jsx
-var Button = require('./my/Button');
-var inject = require('react-tunnel').inject;
-
-function getProps(provided) {
-  return {
-    something: provided.something
+class ProvidingApp extends Component {
+  render() {
+    return  <Provider provide{{postMesage: postMessage}}>
+              <Some>
+                <Deep>
+                  <Tree>
+                    <PostMessageButton />
+                  </Tree>
+                </Deep>
+              </Some>
+            </Provider>
   }
 }
 
-module.exports = inject(getProps)(Button);
-```
----
-
-
-### Description
-
-.center[
-
-## Javascript Runtime for Application Logic
-## Native Runtime for Presentation Logic
-## A Bridge to close the gap
-
-]
----
-#### Javascript Runtime
-.center[
-
-## Identical React Semantics
-## no DOM, but still virtual View
-
-]
-
-
-```javascript
-render: function () {
-  return (
-    <div>
-      <p>Hello World</p>
-    </div>
-  )
+@inject(({postMessage}) => ({postMessage}))
+class PostMessageButton extends Component {
+  render() {
+    return <button onClick={this.props.postMessage} />
+  }
 }
+
+React.render(ProvidingApp, document.body);
+
 ```
-```javascript
-render: function () {
-  return (
-    <View>
-      <Text>Hello World</Text>
-    </View>
-  )
-}
-```
----
-#### Native Runtime
-.center[
-
-## ObjC <-> JS is always async
-
-]
-
-```objectivec
-RCT_EXPORT_METHOD(getContacts:(RCTResponseSenderBlock) callback)
-{
-    ABAddressBookRef addressBookRef = ABAddressBookCreateWithOptions(NULL, nil);
-    NSArray *allContacts = (__bridge_transfer NSArray *)ABAddressBookCopyArrayOfAllPeopleInSourceWithSortOrdering(addressBookRef, NULL, kABPersonSortByLastName);
-
-    int totalContacts = (int)[allContacts count];
-    int currentIndex = 0;
-    int maxIndex = --totalContacts;
-
-    NSMutableArray *contacts = [[NSMutableArray alloc] init];
-
-    while (currentIndex <= maxIndex){
-        NSDictionary *contact = [self dictionaryRepresentationForABPerson: (ABRecordRef)[allContacts objectAtIndex:(long)currentIndex]];
-
-        if(contact){
-            [contacts addObject:contact];
-        }
-        currentIndex++;
-    }
-    callback(@[[NSNull null], contacts]);
-}
-```
-[https://github.com/rt2zz/react-native-addressbook]
----
-
-### Installation
-
-.center[
-
-## [facebook.github.io/react-native/](https://facebook.github.io/react-native/docs/getting-started.html#content)
-## Xcode, node, watchman, flow
-## react-native-cli
-
-]
----
-### Installation
-
-.center[
-
-## cli stubs a new project
-(react-native init AwesomeProject)
-## cli spins up a packager
-(react-native start)
-## running project in xcode launches project in simulator
-
-]
 
 ---
-### Use
+class: center, middle
 
-.center[
-
-## AppRegistry replaces Render
-.left[
-```javascript
-AppRegistry.registerComponent('MyApp', () => MyApp);
-```
-]
-
-## Single root js file
-index.ios.js is default. 
-
-
-]
-
----
-### This ISNT Web
-
-.center[
-
-## Styles
-limited css polfyill, but no cascading or inheritance
-
-## URLs
-None, routing is handled via a route "Stack". Arbitrary object defines route
-
-## DOM
-div and p are View and Text. is not trying to be DOM for native
-
-]
-
----
-### Except when it is
-
-.center[
-
-## Polyfills
-
-### Flexbox
-### Geolocaction
-### Network (XHR)
-### Timers
-
-]
-
-
----
-### idiosyncrasies
-
-.center[
-
-## .setNativeProps
-sets props directly on the underlying native component. this is like calling getDOMNode() in React and manipulating the DOM element directly
-
-## Pan Responder
-powerful but very IOS specific way of dealing with touch response.
-
-## missing modules
-lots of obvious native modules aren't part of react-native (i.e. camera)
-
-]
-
----
-### idiosyncrasies
-
-.center[
-
-## JSCore vs V8
-when debugging a different vm is running your code
-
-## hosting index.ios.js
-http or file
-
-## simulator vs actual device
-localhost works in simulator but not on actual device
-
-]
-
----
-### the library itself
-
-.center[
-
-## changing all the time
-## incomplete
-## powerful
-
-]
-
----
-### An Example
-
-.center[
-
-## the bundled example app from
-## [rn-drawer](https://github.com/rt2zz/rn-drawer)
-
-]
-
----
-
-### Questions
-
-.center[
-
-
-Josh Story  
-@jcspublic  
-github.com/gnoff 
-
-]
-
----
+## More at
+## [github.com/gnoff/react-tunnel](github.com/gnoff/react-tunnel)
 
     </textarea>
     <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
     </script>
     <script>
       var slideshow = remark.create({
-        highlightStyle: 'monokai'
+        highlightStyle: 'rainbow'
       });
     </script>
   </body>
