@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style type="text/css">
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# react-tunnel
+
+### an lightweight `prop` tunneling liabrary
+
+
+
+Josh Story  
+[@joshcstory](https://twitter.com/joshcstory)  
+[github.com/gnoff](https://github.com/gnoff)
+
+---
+class: center, middle
+
+# The Setup
+
+---
+class: center, middle
+
+## `props` are an awesome API
+```jsx
+return <SuperCoolComponent is="totally" super="cool" />
+```
+---
+class: center, middle
+
+## Explicit
+## Synchronous
+## Easy to debug
+
+---
+class: center, middle
+
+# But...
+
+---
+class: center, middle
+
+## somtimes they can be a pain
+
+---
+class: center, middle
+
+## Contextual Information
+## Application State
+```jsx
+return <SuperDeepComponent somethingDefinedNearTheTop={passedALot} />
+```
+
+---
+class: center, middle
+
+### imagine:  
+new action handler `postMessage`  
+needs to be available in a "deeply nested" button component
+---
+class: middle
+
+### This
+```jsx
+<AppController>
+//... Each
+  <SomeLayer />
+  //... Component
+    <AnotherLayer>
+    //... Is Defined
+      <AndAnother>
+      //... In it's own 
+        <AlmostDone>
+        //... File with it's own
+          <LastOne>
+          //... render method
+            <Button stuff={stuff} a={b} />
+//................
+```
+---
+class: middle
+
+### Becomes
+```jsx
+<AppController>
+//... Each
+  <SomeLayer postMessage={postMessage}>
+  //... Component
+    <AnotherLayer postMessage={postMessage}>
+    //... Is Defined
+      <AndAnother postMessage={postMessage}>
+      //... In it's own 
+        <AlmostDone postMessage={postMessage}>
+        //... File with it's own
+          <LastOne postMessage={postMessage}>
+          //... render method
+            <Button postMessage={postMessage} stuff={stuff} a={b} />
+            // Button can use postMessage
+//................
+```
+---
+class: center, middle
+
+## Why not just require these in external files?
+---
+class: center, middle
+
+## can do
+## but Singltons often problematic
+## doesn't support Universal apps
+---
+class: center, middle
+
+## Why not use `context`?
+---
+class: center, middle
+
+## can do
+## but requires you to modify your components
+---
+class: center, middle
+
+# react-tunnel
+---
+.center[
+
+## Wherever contextual informaiton exists
+## provide it with `Provider`
+
+]
+
+
+```jsx
+var Provider = require('react-tunnel').Provider;
+
+//... 
+var AppController = React.createClass({
+  render: function () {
+    return (
+      <Provider provide={{postMessage: postMessage}}>
+        <SomeLayer />
+      </Provider>
+    )
+  }
+});
+```
+---
+.center[
+
+## Wherever contextual informaiton is needed
+## `inject` it
+
+]
+
+
+```jsx
+var Button = require('./my/Button');
+var inject = require('react-tunnel').inject;
+
+function getProps(provided) {
+  return {
+    postMessage: provided.postMessage
+  }
+}
+
+module.exports = inject(getProps)(Button);
+```
+---
+class: middle
+
+### We had
+```jsx
+<AppController>
+//... Each
+  <SomeLayer postMessage={postMessage}>
+  //... Component
+    <AnotherLayer postMessage={postMessage}>
+    //... Is Defined
+      <AndAnother postMessage={postMessage}>
+      //... In it's own 
+        <AlmostDone postMessage={postMessage}>
+        //... File with it's own
+          <LastOne postMessage={postMessage}>
+          //... render method
+            <Button postMessage={postMessage} stuff={stuff} a={b}/>
+            // Button can use postMessage
+//................
+```
+---
+class: middle
+
+### Now we have
+```jsx
+<ProvidingAppController>
+//... Each
+  <SomeLayer>
+  //... Component
+    <AnotherLayer>
+    //... Is Defined
+      <AndAnother>
+      //... In it's own 
+        <AlmostDone>
+        //... File with it's own
+          <LastOne>
+          //... render method
+            <Button stuff={stuff} a={b} />
+            // Button can STILL use postMessage
+//................
+```
+---
+.center[
+
+## Now we have
+## `inject` it
+
+]
+
+
+```jsx
+var Button = require('./my/Button');
+var inject = require('react-tunnel').inject;
+
+function getProps(provided) {
+  return {
+    something: provided.something
+  }
+}
+
+module.exports = inject(getProps)(Button);
+```
+---
+
+
+### Description
+
+.center[
+
+## Javascript Runtime for Application Logic
+## Native Runtime for Presentation Logic
+## A Bridge to close the gap
+
+]
+---
+#### Javascript Runtime
+.center[
+
+## Identical React Semantics
+## no DOM, but still virtual View
+
+]
+
+
+```javascript
+render: function () {
+  return (
+    <div>
+      <p>Hello World</p>
+    </div>
+  )
+}
+```
+```javascript
+render: function () {
+  return (
+    <View>
+      <Text>Hello World</Text>
+    </View>
+  )
+}
+```
+---
+#### Native Runtime
+.center[
+
+## ObjC <-> JS is always async
+
+]
+
+```objectivec
+RCT_EXPORT_METHOD(getContacts:(RCTResponseSenderBlock) callback)
+{
+    ABAddressBookRef addressBookRef = ABAddressBookCreateWithOptions(NULL, nil);
+    NSArray *allContacts = (__bridge_transfer NSArray *)ABAddressBookCopyArrayOfAllPeopleInSourceWithSortOrdering(addressBookRef, NULL, kABPersonSortByLastName);
+
+    int totalContacts = (int)[allContacts count];
+    int currentIndex = 0;
+    int maxIndex = --totalContacts;
+
+    NSMutableArray *contacts = [[NSMutableArray alloc] init];
+
+    while (currentIndex <= maxIndex){
+        NSDictionary *contact = [self dictionaryRepresentationForABPerson: (ABRecordRef)[allContacts objectAtIndex:(long)currentIndex]];
+
+        if(contact){
+            [contacts addObject:contact];
+        }
+        currentIndex++;
+    }
+    callback(@[[NSNull null], contacts]);
+}
+```
+[https://github.com/rt2zz/react-native-addressbook]
+---
+
+### Installation
+
+.center[
+
+## [facebook.github.io/react-native/](https://facebook.github.io/react-native/docs/getting-started.html#content)
+## Xcode, node, watchman, flow
+## react-native-cli
+
+]
+---
+### Installation
+
+.center[
+
+## cli stubs a new project
+(react-native init AwesomeProject)
+## cli spins up a packager
+(react-native start)
+## running project in xcode launches project in simulator
+
+]
+
+---
+### Use
+
+.center[
+
+## AppRegistry replaces Render
+.left[
+```javascript
+AppRegistry.registerComponent('MyApp', () => MyApp);
+```
+]
+
+## Single root js file
+index.ios.js is default. 
+
+
+]
+
+---
+### This ISNT Web
+
+.center[
+
+## Styles
+limited css polfyill, but no cascading or inheritance
+
+## URLs
+None, routing is handled via a route "Stack". Arbitrary object defines route
+
+## DOM
+div and p are View and Text. is not trying to be DOM for native
+
+]
+
+---
+### Except when it is
+
+.center[
+
+## Polyfills
+
+### Flexbox
+### Geolocaction
+### Network (XHR)
+### Timers
+
+]
+
+
+---
+### idiosyncrasies
+
+.center[
+
+## .setNativeProps
+sets props directly on the underlying native component. this is like calling getDOMNode() in React and manipulating the DOM element directly
+
+## Pan Responder
+powerful but very IOS specific way of dealing with touch response.
+
+## missing modules
+lots of obvious native modules aren't part of react-native (i.e. camera)
+
+]
+
+---
+### idiosyncrasies
+
+.center[
+
+## JSCore vs V8
+when debugging a different vm is running your code
+
+## hosting index.ios.js
+http or file
+
+## simulator vs actual device
+localhost works in simulator but not on actual device
+
+]
+
+---
+### the library itself
+
+.center[
+
+## changing all the time
+## incomplete
+## powerful
+
+]
+
+---
+### An Example
+
+.center[
+
+## the bundled example app from
+## [rn-drawer](https://github.com/rt2zz/rn-drawer)
+
+]
+
+---
+
+### Questions
+
+.center[
+
+
+Josh Story  
+@jcspublic  
+github.com/gnoff 
+
+]
+
+---
+
+    </textarea>
+    <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create({
+        highlightStyle: 'monokai'
+      });
+    </script>
+  </body>
+</html>
