@@ -22,7 +22,7 @@ class: center, middle
 
 # react-tunnel
 
-### an lightweight `prop` tunneling liabrary
+### a lightweight `prop` tunneling liabrary
 
 
 
@@ -92,6 +92,7 @@ class: middle
           <LastOne>
           //... render method
             <Button stuff={stuff} a={b} />
+            //...
 //................
 ```
 ---
@@ -118,12 +119,12 @@ class: middle
 ---
 class: center, middle
 
-## Why not just require these in external files?
+## Why not just `require` these in external files?
 ---
 class: center, middle
 
-## can do
-## but Singltons often problematic
+## Can do...
+## but Singletons often problematic
 ## doesn't support Universal apps
 ---
 class: center, middle
@@ -132,7 +133,7 @@ class: center, middle
 ---
 class: center, middle
 
-## can do
+## Can do...
 ## but requires you to modify your components
 ---
 class: center, middle
@@ -141,7 +142,7 @@ class: center, middle
 ---
 .center[
 
-## Wherever contextual informaiton exists
+## Wherever contextual information exists
 ## provide it with `Provider`
 
 ]
@@ -164,7 +165,7 @@ var AppController = React.createClass({
 ---
 .center[
 
-## Wherever contextual informaiton is needed
+## Wherever contextual information is needed
 ## `inject` it
 
 ]
@@ -229,7 +230,7 @@ class: middle
 ---
 class: center, middle
 
-## Useful for
+## Useful for:
 ## Device Dimensions in React Native
 ## Actions for Flux-like frameworks
 ## Anything that is a pain to pass deeply as props...
@@ -271,7 +272,7 @@ React.render(ProvidingApp, document.body);
 class: center, middle
 
 ## More at
-## [github.com/gnoff/react-tunnel](github.com/gnoff/react-tunnel)
+## [github.com/gnoff/react-tunnel](https://github.com/gnoff/react-tunnel)
 
     </textarea>
     <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
